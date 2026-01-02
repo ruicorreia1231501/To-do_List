@@ -28,10 +28,6 @@ exports.createTask = async (req, res) => {
   try {
     const { title, description, targetDate, priority, completed } = req.body;
 
-    if (!title) {
-      return res.status(400).json({ message: "Title is required" });
-    }
-
     const task = new Task({
       title,
       description,
@@ -43,6 +39,12 @@ exports.createTask = async (req, res) => {
     const savedTask = await task.save();
     res.status(201).json(savedTask);
   } catch (error) {
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors)
+        .map(err => err.message) // map each error to its message
+        .join(", ");
+      return res.status(400).json({ message: messages });
+    }
     res.status(500).json({ message: error.message });
   }
 };
@@ -51,10 +53,6 @@ exports.createTask = async (req, res) => {
 exports.updateTask = async (req, res) => {
   try {
     const { title, description, targetDate, priority, completed } = req.body;
-
-    if (!title) {
-      return res.status(400).json({ message: "Title is required" });
-    }
 
     const task = await Task.findByIdAndUpdate(
       req.params.id,
@@ -74,6 +72,12 @@ exports.updateTask = async (req, res) => {
 
     res.status(200).json(task);
   } catch (error) {
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors)
+        .map(err => err.message)
+        .join(", ");
+      return res.status(400).json({ message: messages });
+    }
     res.status(500).json({ message: error.message });
   }
 };
@@ -93,6 +97,12 @@ exports.partialUpdateTask = async (req, res) => {
 
     res.status(200).json(task);
   } catch (error) {
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors)
+        .map(err => err.message)
+        .join(", ");
+      return res.status(400).json({ message: messages });
+    }
     res.status(500).json({ message: error.message });
   }
 };
