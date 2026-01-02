@@ -84,7 +84,7 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',      // Expose to all interfaces
     port: 5173,            // Standard Vite port
-    strictPort: false,     // Fallback if port unavailable
+    strictPort: false,
   },
 })
 ```
