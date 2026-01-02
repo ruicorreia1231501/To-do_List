@@ -1,8 +1,7 @@
-// Validation middleware for task data
 const validateTask = (req, res, next) => {
   const { title, description, targetDate, priority, completed } = req.body;
 
-  // Validate title
+  // title
   if (!title || typeof title !== "string") {
     return res.status(400).json({ 
       message: "Title is required and must be a string" 
@@ -21,7 +20,7 @@ const validateTask = (req, res, next) => {
     });
   }
 
-  // Validate description
+  // description
   if (description !== undefined && description !== null) {
     if (typeof description !== "string") {
       return res.status(400).json({ 
@@ -35,7 +34,7 @@ const validateTask = (req, res, next) => {
     }
   }
 
-  // Validate priority
+  // priority
   if (priority !== undefined && priority !== null) {
     const priorityNum = Number(priority);
     if (!Number.isInteger(priorityNum) || priorityNum < 1 || priorityNum > 5) {
@@ -45,17 +44,17 @@ const validateTask = (req, res, next) => {
     }
   }
 
-  // Validate targetDate
+  // targetDate
   if (targetDate !== undefined && targetDate !== null) {
-    const date = new Date(targetDate);
-    if (isNaN(date.getTime())) {
+  const date = new Date(targetDate);
+  if (isNaN(date.getTime())) {
       return res.status(400).json({ 
         message: "Invalid targetDate format" 
       });
     }
   }
 
-  // Validate completed
+  // Status
   if (completed !== undefined && completed !== null) {
     if (typeof completed !== "boolean") {
       return res.status(400).json({ 
@@ -67,11 +66,11 @@ const validateTask = (req, res, next) => {
   next();
 };
 
-// Validation for partial updates
+// partial updates
 const validatePartialUpdate = (req, res, next) => {
   const { title, description, targetDate, priority, completed } = req.body;
 
-  // Validate title if provided
+  // if provided
   if (title !== undefined && title !== null) {
     if (typeof title !== "string") {
       return res.status(400).json({ 
@@ -90,7 +89,7 @@ const validatePartialUpdate = (req, res, next) => {
     }
   }
 
-  // Validate description if provided
+  // if provided
   if (description !== undefined && description !== null) {
     if (typeof description !== "string") {
       return res.status(400).json({ 
@@ -104,7 +103,7 @@ const validatePartialUpdate = (req, res, next) => {
     }
   }
 
-  // Validate priority if provided
+  // if provided
   if (priority !== undefined && priority !== null) {
     const priorityNum = Number(priority);
     if (!Number.isInteger(priorityNum) || priorityNum < 1 || priorityNum > 5) {
@@ -114,7 +113,7 @@ const validatePartialUpdate = (req, res, next) => {
     }
   }
 
-  // Validate targetDate if provided
+  // if provided
   if (targetDate !== undefined && targetDate !== null) {
     const date = new Date(targetDate);
     if (isNaN(date.getTime())) {
@@ -124,7 +123,7 @@ const validatePartialUpdate = (req, res, next) => {
     }
   }
 
-  // Validate completed if provided
+  // if provided
   if (completed !== undefined && completed !== null) {
     if (typeof completed !== "boolean") {
       return res.status(400).json({ 
